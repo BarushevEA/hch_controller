@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package parentalcontrol;
+
+option go_package = "parentalcontrol/proto";
+
+service ParentalControl {
+  // Получение скриншота
+  rpc GetScreenshot (ScreenshotRequest) returns (ScreenshotResponse);
+
+  // Команда выключения ПК
+  rpc Shutdown (ShutdownRequest) returns (ShutdownResponse);
+
+  // Установка расписания
+  rpc SetSchedule (Schedule) returns (ScheduleResponse);
+
+  // Получение текущего расписания
+  rpc GetSchedule (ScheduleRequest) returns (Schedule);
+
+  // Проверка обновлений
+  rpc CheckUpdate (UpdateRequest) returns (UpdateResponse);
+}
+
+message ScreenshotRequest {
+  string client_id = 1;
+}
+
+message ScreenshotResponse {
+  bytes image_data = 1;
+  string timestamp = 2;
+}
+
+message ShutdownRequest {
+  string client_id = 1;
+  bool force = 2;
+}
+
+message ShutdownResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message Schedule {
+  string client_id = 1;
+  repeated DaySchedule days = 2;
+}
+
+message DaySchedule {
+  int32 day_of_week = 1; // 1-7 (Понедельник-Воскресенье)
+  string shutdown_time = 2; // формат "HH:MM"
+}
+
+message ScheduleRequest {
+  string client_id = 1;
+}
+
+message ScheduleResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message UpdateRequest {
+  string client_id = 1;
+  string current_version = 2;
+}
+
+message UpdateResponse {
+  bool update_available = 1;
+  string new_version = 2;
+  bytes update_data = 3;
+}
