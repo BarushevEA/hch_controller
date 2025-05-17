@@ -1,23 +1,14 @@
 syntax = "proto3";
 
-package parentalcontrol;
+package hch_controller;
 
-option go_package = "parentalcontrol/proto";
+option go_package = "hch_controller/grpc/core";
 
 service ParentalControl {
-  // Получение скриншота
   rpc GetScreenshot (ScreenshotRequest) returns (ScreenshotResponse);
-
-  // Команда выключения ПК
   rpc Shutdown (ShutdownRequest) returns (ShutdownResponse);
-
-  // Установка расписания
   rpc SetSchedule (Schedule) returns (ScheduleResponse);
-
-  // Получение текущего расписания
   rpc GetSchedule (ScheduleRequest) returns (Schedule);
-
-  // Проверка обновлений
   rpc CheckUpdate (UpdateRequest) returns (UpdateResponse);
 }
 
@@ -32,7 +23,7 @@ message ScreenshotResponse {
 
 message ShutdownRequest {
   string client_id = 1;
-  bool force = 2;
+  bool force = 2; //?
 }
 
 message ShutdownResponse {
@@ -46,8 +37,8 @@ message Schedule {
 }
 
 message DaySchedule {
-  int32 day_of_week = 1; // 1-7 (Понедельник-Воскресенье)
-  string shutdown_time = 2; // формат "HH:MM"
+  int32 day_of_week = 1;
+  string shutdown_time = 2;
 }
 
 message ScheduleRequest {
